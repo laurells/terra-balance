@@ -28,9 +28,16 @@ const Card: FC<Props> = ({ item }) => {
   const alreadyWishlisted =
     wishlist.filter((wItem) => wItem.id === id).length > 0;
 
-  const handleWishlist = () => {
-    alreadyWishlisted ? deleteWishlistItem!(item) : addToWishlist!(item);
-  };
+    const handleWishlist = () => {
+      if (typeof item.id === 'number') {
+        const wishlistItem = { ...item, id: item.id as number };
+        alreadyWishlisted ? deleteWishlistItem!(wishlistItem) : addToWishlist!(wishlistItem);
+      } else {
+        // Handle the case where 'id' is not a number
+        console.error('Item id is not a number:', item.id);
+      }
+    };
+    
 
   return (
     <div className={styles.card}>
