@@ -1,8 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
-
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import LeftArrow from "../../public/icons/LeftArrow";

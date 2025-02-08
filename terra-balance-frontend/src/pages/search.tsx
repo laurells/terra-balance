@@ -2,8 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
-
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import Card from "../components/Card/Card";
@@ -26,8 +24,6 @@ const agent = new https.Agent({
 });
 
 const Search: React.FC<Props> = ({ items, searchWord }) => {
-  const t = useTranslations("Search");
-
   return (
     <div>
       {/* ===== Head Section ===== */}
@@ -39,7 +35,7 @@ const Search: React.FC<Props> = ({ items, searchWord }) => {
           <div className="app-x-padding app-max-width w-full">
             <div className="breadcrumb">
               <Link href="/">
-                <a className="text-gray400">{t("home")}</a>
+                <a className="text-gray400">Home</a>
               </Link>{" "}
               / <span>Search results</span>
             </div>
