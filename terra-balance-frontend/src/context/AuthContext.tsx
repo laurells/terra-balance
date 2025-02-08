@@ -52,12 +52,29 @@ type User = {
 // ... available to any child component that calls useAuth().
 export function ProvideAuth({ children }: { children: React.ReactNode }) {
   const auth = useProvideAuth();
+  
+  // Add debug logging
+  useEffect(() => {
+    console.log('AuthContext value:', auth);
+  }, [auth]);
+
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }
 // Hook for child components to get the auth object ...
 // ... and re-render when it changes.
 export const useAuth = () => {
-  return useContext(authContext);
+  const context = useContext(authContext);
+  
+  // Add additional check to ensure login method exists
+  if (!context.login) {
+    console.error('Login method is not defined in AuthContext');
+    context.login = async () => {
+      console.error('Fallback login method called');
+      return { success: false, message: 'Login method not implemented' };
+    };
+  }
+
+  return context;
 };
 
 // Provider hook that creates auth object and handles state
