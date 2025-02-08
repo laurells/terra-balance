@@ -3,7 +3,6 @@ import { GetServerSideProps } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { Disclosure } from "@headlessui/react";
-import { useTranslations } from "next-intl";
 import axios from "axios";
 import api from "../../config/api";
 import Heart from "../../../public/icons/Heart";
@@ -45,7 +44,6 @@ const Product: React.FC<Props> = ({ product, products }) => {
   const [size, setSize] = useState("M");
   const [mainImg, setMainImg] = useState(img1);
   const [currentQty, setCurrentQty] = useState(1);
-  const t = useTranslations("Category");
 
   const alreadyWishlisted =
     wishlist.filter((wItem) => wItem.id === product.id).length > 0;
@@ -81,12 +79,12 @@ const Product: React.FC<Props> = ({ product, products }) => {
           <div className="app-x-padding app-max-width w-full">
             <div className="breadcrumb">
               <Link href="/">
-                <a className="text-gray400">{t("home")}</a>
+                <a className="text-gray400">Home</a>
               </Link>{" "}
               /{" "}
               <Link href={`/product-category/${product.categoryName}`}>
                 <a className="text-gray400 capitalize">
-                  {t(product.categoryName as string)}
+                  {(product.categoryName as string)}
                 </a>
               </Link>{" "}
               / <span>{product.name}</span>
@@ -169,10 +167,10 @@ const Product: React.FC<Props> = ({ product, products }) => {
             </span>
             <span className="mb-2 text-justify">{product.description}</span>
             <span className="mb-2">
-              {t("availability")}: {t("in_stock")}
+              Available: In Stock
             </span>
             <span className="mb-2">
-              {t("size")}: {size}
+              Size: {size}
             </span>
             <div className="sizeContainer flex space-x-4 text-sm mb-4">
               <div
@@ -228,7 +226,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
               </div>
               <div className="flex h-12 space-x-4 w-full">
                 <Button
-                  value={t("add_to_cart")}
+                  value="Add to cart"
                   size="lg"
                   extraClass={`flex-grow text-center whitespace-nowrap`}
                   onClick={() => addItem!(currentItem)}
@@ -246,7 +244,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
               {({ open }) => (
                 <>
                   <Disclosure.Button className="py-2 focus:outline-none text-left mb-4 border-b-2 border-gray200 flex items-center justify-between">
-                    <span>{t("details")}</span>
+                    <span>Details</span>
                     <DownArrow
                       extraClass={`${
                         open ? "" : "transform rotate-180"
@@ -262,7 +260,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
               )}
             </Disclosure>
             <div className="flex items-center space-x-4 mt-4">
-              <span>{t("share")}</span>
+              <span>Share</span>
               <FacebookLogo extraClass="h-4 cursor-pointer text-gray400 hover:text-gray500" />
               <InstagramLogo extraClass="h-4 cursor-pointer text-gray400 hover:text-gray500" />
             </div>
@@ -273,7 +271,7 @@ const Product: React.FC<Props> = ({ product, products }) => {
 
         {/* ===== You May Also Like Section ===== */}
         <div className="recSection my-8 app-max-width app-x-padding">
-          <h2 className="text-3xl mb-6">{t("you_may_also_like")}</h2>
+          <h2 className="text-3xl mb-6">You may also like</h2>
           <Swiper
             slidesPerView={2}
             // centeredSlides={true}
