@@ -22,7 +22,7 @@ app.use(
 );
 app.use(
   cors({
-    origin: '*', // Allow requests from all origins (for development, change this in production)
+    origin: 'https://terra-balance.vercel.app/', // Allow requests from all origins (for development, change this in production)
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })

@@ -213,6 +213,64 @@ router.get('/list/select', auth, async (req, res) => {
   }
 });
 
+// New route for search with query parameter
+router.get('/search', async (req, res) => {
+  try {
+    const q = req.query.q;
+
+    const productDocs = await Product.find({
+      name: { $regex: new RegExp(q, 'i') },
+      isActive: true
+    }).populate('category');
+
+    if (productDocs.length === 0) {
+      return res.status(404).json({
+        error: { 
+          type: 'notFound', 
+          detail: { message: 'No products found.' } 
+        }
+      });
+    }
+
+    const transformedProducts = productDocs.map(transformProduct);
+
+    res.status(200).json({
+      data: transformedProducts
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: { 
+        type: 'serverError', 
+        detail: { message: 'Your request could not be processed. Please try again.' } 
+      }
+    });
+  }
+});
+
+// New route for counting products
+router.get('/count', async (req, res) => {
+  try {
+    const { category } = req.query;
+    
+    const query = category 
+      ? { 'category.slug': category, isActive: true }
+      : { isActive: true };
+
+    const count = await Product.countDocuments(query);
+
+    res.status(200).json({
+      count
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: { 
+        type: 'serverError', 
+        detail: { message: 'Your request could not be processed. Please try again.' } 
+      }
+    });
+  }
+});
+
 // add product api
 router.post(
   '/add',

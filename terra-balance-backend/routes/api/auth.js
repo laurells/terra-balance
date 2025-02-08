@@ -65,7 +65,7 @@ router.post('/login', async (req, res) => {
       token: `Bearer ${token}`,
       user: {
         id: user.id,
-        fullname: `${user.firstName} ${user.lastName}`,
+        fullname: user.fullname,
         phone: user.phone || '',
         shippingAddress: user.shippingAddress || ''
         // role: user.role
@@ -117,8 +117,7 @@ router.post('/register', async (req, res) => {
     const user = new User({
       email,
       password,
-      firstName,
-      lastName,
+      fullname,
       phone,
       shippingAddress
     });

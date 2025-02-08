@@ -3,7 +3,7 @@ const router = express.Router();
 
 // Assuming 'apiURL' is set to 'v1' in keys.js
 const { apiURL } = require('../config/keys').app;
-const apiPrefix = `/api`; // This will be '/v1' if apiURL = 'v1'
+const apiPrefix = `/api/v1`; // This will be '/v1' if apiURL = 'v1'
 
 // Import all API routes
 const apiRoutes = require('./api'); // Make sure you are correctly exporting your routes in api.js
