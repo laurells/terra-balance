@@ -2,7 +2,6 @@ import Link from "next/link";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { Menu } from "@headlessui/react";
-import { useTranslations } from "next-intl";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Card from "../../components/Card/Card";
@@ -25,7 +24,6 @@ const ProductCategory: React.FC<Props> = ({
   numberOfProducts,
   orderby,
 }) => {
-  const t = useTranslations("Category");
 
   const router = useRouter();
   const { category } = router.query;
@@ -49,24 +47,21 @@ const ProductCategory: React.FC<Props> = ({
           <div className="app-x-padding app-max-width w-full">
             <div className="breadcrumb">
               <Link href="/">
-                <a className="text-gray400">{t("home")}</a>
+                <a className="text-gray400">Home</a>
               </Link>{" "}
-              / <span className="capitalize">{t(category as string)}</span>
+              / <span className="capitalize">{category as string}</span>
             </div>
           </div>
         </div>
 
         {/* ===== Heading & Filter Section ===== */}
         <div className="app-x-padding app-max-width w-full mt-8">
-          <h3 className="text-4xl mb-2 capitalize">{t(category as string)}</h3>
+          <h3 className="text-4xl mb-2 capitalize">{category as string}</h3>
           <div className="flex flex-col-reverse sm:flex-row gap-4 sm:gap-0 justify-between mt-4 sm:mt-6">
             <span>
-              {t("showing_from_to", {
-                from: firstIndex,
-                to: numberOfProducts < lastIndex ? numberOfProducts : lastIndex,
-                all: numberOfProducts,
-              })}
+              Showing from {firstIndex} to {numberOfProducts < lastIndex ? numberOfProducts : lastIndex}, all: {numberOfProducts}
             </span>
+
             {category !== "new-arrivals" && <SortMenu orderby={orderby} />}
           </div>
         </div>
@@ -127,7 +122,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     }
 
     // Fetch products
-    const reqUrl = 
+    const reqUrl =
       paramCategory === "new-arrivals"
         ? `/api/v1/products?order_by=createdAt.desc&limit=10`
         : `/api/v1/products?order_by=${order_by}&offset=${start}&limit=10&category=${paramCategory}`;
@@ -172,7 +167,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 };
 
 const SortMenu: React.FC<{ orderby: OrderType }> = ({ orderby }) => {
-  const t = useTranslations("Navigation");
+
   const router = useRouter();
   const { category } = router.query;
 
@@ -188,7 +183,7 @@ const SortMenu: React.FC<{ orderby: OrderType }> = ({ orderby }) => {
   return (
     <Menu as="div" className="relative">
       <Menu.Button as="a" href="#" className="flex items-center capitalize">
-        {t(currentOrder)} <DownArrow />
+        Current Order <DownArrow />
       </Menu.Button>
       <Menu.Items className="flex flex-col z-10 items-start text-xs sm:text-sm w-auto sm:right-0 absolute p-1 border border-gray200 bg-white mt-2 outline-none">
         <Menu.Item>
@@ -198,13 +193,11 @@ const SortMenu: React.FC<{ orderby: OrderType }> = ({ orderby }) => {
               onClick={() =>
                 router.push(`/product-category/${category}?orderby=latest`)
               }
-              className={`${
-                active ? "bg-gray100 text-gray500" : "bg-white"
-              } py-2 px-4 text-left w-full focus:outline-none whitespace-nowrap ${
-                currentOrder === "sort_by_latest" && "bg-gray500 text-gray100"
-              }`}
+              className={`${active ? "bg-gray100 text-gray500" : "bg-white"
+                } py-2 px-4 text-left w-full focus:outline-none whitespace-nowrap ${currentOrder === "sort_by_latest" && "bg-gray500 text-gray100"
+                }`}
             >
-              {t("sort_by_latest")}
+              Sort by latest
             </button>
           )}
         </Menu.Item>
@@ -215,13 +208,11 @@ const SortMenu: React.FC<{ orderby: OrderType }> = ({ orderby }) => {
               onClick={() =>
                 router.push(`/product-category/${category}?orderby=price`)
               }
-              className={`${
-                active ? "bg-gray100 text-gray500" : "bg-white"
-              } py-2 px-4 text-left w-full focus:outline-none whitespace-nowrap ${
-                currentOrder === "sort_by_price" && "bg-gray500 text-gray100"
-              }`}
+              className={`${active ? "bg-gray100 text-gray500" : "bg-white"
+                } py-2 px-4 text-left w-full focus:outline-none whitespace-nowrap ${currentOrder === "sort_by_price" && "bg-gray500 text-gray100"
+                }`}
             >
-              {t("sort_by_price")}
+              Sort by price
             </button>
           )}
         </Menu.Item>
@@ -232,14 +223,12 @@ const SortMenu: React.FC<{ orderby: OrderType }> = ({ orderby }) => {
               onClick={() =>
                 router.push(`/product-category/${category}?orderby=price-desc`)
               }
-              className={`${
-                active ? "bg-gray100 text-gray500" : "bg-white"
-              } py-2 px-4 text-left w-full focus:outline-none whitespace-nowrap ${
-                currentOrder === "sort_by_price_desc" &&
+              className={`${active ? "bg-gray100 text-gray500" : "bg-white"
+                } py-2 px-4 text-left w-full focus:outline-none whitespace-nowrap ${currentOrder === "sort_by_price_desc" &&
                 "bg-gray500 text-gray100"
-              }`}
+                }`}
             >
-              {t("sort_by_price_desc")}
+              Price description
             </button>
           )}
         </Menu.Item>
