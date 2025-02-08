@@ -15,7 +15,7 @@ type authType = {
     success: boolean;
     message: string;
   }>;
-  login?: (
+  login: (
     email: string,
     password: string
   ) => Promise<{
@@ -31,6 +31,10 @@ type authType = {
 
 const initialAuth: authType = {
   user: null,
+  login: async () => {
+    console.error('Login method not implemented');
+    return { success: false, message: 'Login not implemented' };
+  }
 };
 
 const authContext = createContext<authType>(initialAuth);
@@ -126,20 +130,26 @@ function useProvideAuth() {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/auth/login`,
+      console.log('Attempting login with:', email);
+      const response = await api.post(
+        `/api/v1/auth/login`,
         {
           email,
           password,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
       );
       const loginResponse = response.data;
       const user: User = {
-        id: +loginResponse.data.id,
+        id: +loginResponse.user.id,
         email,
-        fullname: loginResponse.data.fullname,
-        phone: loginResponse.data.phone,
-        shippingAddress: loginResponse.data.shippingAddress,
+        fullname: loginResponse.user.fullname,
+        phone: loginResponse.user.phone,
+        shippingAddress: loginResponse.user.shippingAddress,
         token: loginResponse.token,
       };
       setUser(user);
@@ -148,6 +158,7 @@ function useProvideAuth() {
         message: "login successful",
       };
     } catch (err) {
+      console.error('Login error:', err);
       return {
         success: false,
         message: "incorrect",

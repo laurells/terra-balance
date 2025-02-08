@@ -105,21 +105,13 @@ router.post('/register', async (req, res) => {
         .json({ error: 'That email address is already in use.' });
     }
 
-    let subscribed = false;
-    if (isSubscribed) {
-      const result = await mailchimp.subscribeToNewsletter(email);
-
-      if (result.status === 'subscribed') {
-        subscribed = true;
-      }
-    }
-
     const user = new User({
       email,
       password,
       fullname,
-      phone,
-      shippingAddress
+      phone: phone || '',
+      shippingAddress: shippingAddress || '',
+      provider: EMAIL_PROVIDER.Email
     });
 
     const salt = await bcrypt.genSalt(10);
@@ -132,12 +124,16 @@ router.post('/register', async (req, res) => {
       id: registeredUser.id
     };
 
-    await mailgun.sendEmail(
-      registeredUser.email,
-      'signup',
-      null,
-      registeredUser
-    );
+    try {
+      await mailgun.sendEmail(
+        registeredUser.email,
+        'signup',
+        null,
+        registeredUser
+      );
+    } catch (emailError) {
+      console.error('Email sending error:', emailError);
+    }
 
     const token = jwt.sign(payload, secret, { expiresIn: tokenLife });
 
@@ -147,6 +143,7 @@ router.post('/register', async (req, res) => {
       token: `Bearer ${token}`
     });
   } catch (error) {
+    console.error('Registration error:', error);
     res.status(400).json({
       success: false,
       error: 'Your request could not be processed. Please try again.'
