@@ -103,7 +103,7 @@ const Header: React.FC<Props> = ({ title }) => {
                             </li>
                             <li>
                                 <Link href='#'>
-                                    Bags
+                                    E-learning
                                 </Link>
                             </li>
                             <li>
