@@ -101,6 +101,7 @@ function useProvideAuth() {
     phone: string
   ) => {
     try {
+      console.log('Attempting registration with:', email, fullname);
       const response = await api.post(
         `/api/v1/auth/register`,
         {
@@ -116,32 +117,58 @@ function useProvideAuth() {
           },
         }
       );
-      const registerResponse = response.data;
+      
+      console.log('Registration response:', response.data);
+      
+      // Validate response structure
+      if (!response.data || !response.data.id || !response.data.token) {
+        console.error('Invalid registration response structure:', response.data);
+        return {
+          success: false,
+          message: 'Invalid server response',
+        };
+      }
+
       const user: User = {
-        id: +registerResponse.id,
+        id: +response.data.id,
         email,
         fullname,
-        shippingAddress,
-        phone,
-        token: registerResponse.token,
+        phone: phone || '',
+        shippingAddress: shippingAddress || '',
+        token: response.data.token,
       };
+      
       setUser(user);
       return {
         success: true,
-        message: "register successful",
+        message: "registration successful",
       };
-    } catch (err) {
-      const errResponse = (err as any).response.data;
-      let errorMessage: string;
-      if (errResponse.error.type === "alreadyExists") {
-        errorMessage = errResponse.error.type;
+    } catch (err: any) {
+      console.error('Registration error:', err);
+      
+      // More detailed error handling
+      if (err.response) {
+        // The request was made and the server responded with a status code
+        console.error('Server error response:', err.response.data);
+        return {
+          success: false,
+          message: err.response.data.error || 'Registration failed',
+        };
+      } else if (err.request) {
+        // The request was made but no response was received
+        console.error('No response received:', err.request);
+        return {
+          success: false,
+          message: 'No response from server',
+        };
       } else {
-        errorMessage = errResponse.error.detail.message;
+        // Something happened in setting up the request
+        console.error('Error setting up request:', err.message);
+        return {
+          success: false,
+          message: 'Network error',
+        };
       }
-      return {
-        success: false,
-        message: errorMessage,
-      };
     }
   };
 
@@ -160,26 +187,59 @@ function useProvideAuth() {
           },
         }
       );
+      
+      console.log('Login response:', response.data);
+      
+      // Validate response structure
+      if (!response.data || !response.data.user || !response.data.token) {
+        console.error('Invalid login response structure:', response.data);
+        return {
+          success: false,
+          message: 'Invalid server response',
+        };
+      }
+
       const loginResponse = response.data;
       const user: User = {
         id: +loginResponse.user.id,
         email,
         fullname: loginResponse.user.fullname,
-        phone: loginResponse.user.phone,
-        shippingAddress: loginResponse.user.shippingAddress,
+        phone: loginResponse.user.phone || '',
+        shippingAddress: loginResponse.user.shippingAddress || '',
         token: loginResponse.token,
       };
+      
       setUser(user);
       return {
         success: true,
         message: "login successful",
       };
-    } catch (err) {
+    } catch (err: any) {
       console.error('Login error:', err);
-      return {
-        success: false,
-        message: "incorrect",
-      };
+      
+      // More detailed error handling
+      if (err.response) {
+        // The request was made and the server responded with a status code
+        console.error('Server error response:', err.response.data);
+        return {
+          success: false,
+          message: err.response.data.error || 'Login failed',
+        };
+      } else if (err.request) {
+        // The request was made but no response was received
+        console.error('No response received:', err.request);
+        return {
+          success: false,
+          message: 'No response from server',
+        };
+      } else {
+        // Something happened in setting up the request
+        console.error('Error setting up request:', err.message);
+        return {
+          success: false,
+          message: 'Network error',
+        };
+      }
     }
   };
 
