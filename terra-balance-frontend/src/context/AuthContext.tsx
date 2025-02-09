@@ -5,7 +5,7 @@ import React, { useState, useEffect, useContext, createContext } from "react";
 
 type authType = {
   user: null | User;
-  register?: (
+  register: (
     email: string,
     fullname: string,
     password: string,
@@ -31,6 +31,10 @@ type authType = {
 
 const initialAuth: authType = {
   user: null,
+  register: async () => {
+    console.error('Register method not implemented');
+    return { success: false, message: 'Register not implemented' };
+  },
   login: async () => {
     console.error('Login method not implemented');
     return { success: false, message: 'Login not implemented' };
@@ -58,16 +62,24 @@ export function ProvideAuth({ children }: { children: React.ReactNode }) {
     console.log('AuthContext value:', auth);
   }, [auth]);
 
-  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
+  // Ensure all methods are defined
+  const safeAuth = {
+    ...initialAuth,
+    ...auth,
+    register: auth.register || initialAuth.register,
+    login: auth.login || initialAuth.login,
+  };
+
+  return <authContext.Provider value={safeAuth}>{children}</authContext.Provider>;
 }
 // Hook for child components to get the auth object ...
 // ... and re-render when it changes.
 export const useAuth = () => {
   const context = useContext(authContext);
   
-  // Add additional check to ensure login method exists
+  // Additional safeguards
   if (!context.login) {
-    console.error('Login method is not defined in AuthContext');
+    console.error('Login method is undefined in AuthContext');
     context.login = async () => {
       console.error('Fallback login method called');
       return { success: false, message: 'Login method not implemented' };
