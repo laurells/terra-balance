@@ -114,8 +114,8 @@ function useProvideAuth() {
   ) => {
     try {
       console.log('Attempting registration with:', email, fullname);
-      const response = await api.post(
-        `/api/v1/auth/register`,
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/auth/register`,
         {
           email,
           fullname,
@@ -187,8 +187,8 @@ function useProvideAuth() {
   const login = async (email: string, password: string) => {
     try {
       console.log('Attempting login with:', email);
-      const response = await api.post(
-        `/api/v1/auth/login`,
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/auth/login`,
         {
           email,
           password,

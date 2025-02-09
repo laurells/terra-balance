@@ -314,12 +314,12 @@ export const getServerSideProps: GetServerSideProps = async ({
     const productId = params?.id as string;
 
     // Fetch main product details
-    const res = await api.get(`/api/v1/products/item/${productId}`);
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/products/item/${productId}`);
     const product: apiProductsType = res.data.product;
 
     // Fetch related/random products
-    const randomProductRes = await api.get(
-      `/api/v1/products?order_by=createdAt.desc&limit=4`
+    const randomProductRes = await axios.get(
+      `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/products?order_by=createdAt.desc&limit=4`
     );
     const randomProducts: apiProductsType[] = randomProductRes.data.data;
 

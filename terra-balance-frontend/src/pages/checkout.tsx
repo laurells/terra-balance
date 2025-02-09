@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import axios from 'axios';
 import api from "../config/api";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
@@ -94,19 +95,27 @@ const ShoppingCart = () => {
 
     const makeOrder = async () => {
       try {
-        const res = await api.post('/api/v1/orders/add', {
-          total: Number(subtotal) + Number(deliFee),
-          subtotal: Number(subtotal),
-          tax: 0,
-          shipping: Number(deliFee),
-          paymentMethod: paymentMethod === 'PAYSTACK' 
-            ? 'paypal' 
-            : paymentMethod.toLowerCase().replace(' ', '_'),
-          shippingAddress: {
-            street: shippingAddress || address,
-            city: deli === 'YANGON' ? 'Yangon' : 'Other',
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/orders/add`, 
+          {
+            total: Number(subtotal) + Number(deliFee),
+            subtotal: Number(subtotal),
+            tax: 0,
+            shipping: Number(deliFee),
+            paymentMethod: paymentMethod === 'PAYSTACK' 
+              ? 'paypal' 
+              : paymentMethod.toLowerCase().replace(' ', '_'),
+            shippingAddress: {
+              street: shippingAddress || address,
+              city: deli === 'YANGON' ? 'Yangon' : 'Other',
+            }
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
           }
-        });
+        );
 
         if (res.data.success) {
           setCompletedOrder({
@@ -152,7 +161,15 @@ const ShoppingCart = () => {
         }
       };
 
-      const res = await api.post('/api/v1/orders/add', orderData);
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/orders/add`, 
+        orderData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
     
       // Handle successful order creation
       if (res.data.success) {

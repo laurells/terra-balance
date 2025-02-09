@@ -9,6 +9,7 @@ import Card from "../../components/Card/Card";
 import { apiProductsType, itemType } from "../../context/cart/cart-types";
 import DownArrow from "../../../public/icons/DownArrow";
 import api from "../../config/api";
+import axios from 'axios';
 type OrderType = "latest" | "price" | "price-desc";
 
 type Props = {
@@ -103,8 +104,8 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   try {
     // Count products for the category
-    const numberOfProductsResponse = await api.get(
-      `/api/v1/products/count?category=${paramCategory}`
+    const numberOfProductsResponse = await axios.get(
+      `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/products/count?category=${paramCategory}`
     );
     numberOfProducts = +numberOfProductsResponse.data.count;
 
@@ -124,10 +125,10 @@ export const getServerSideProps: GetServerSideProps = async ({
     // Fetch products
     const reqUrl =
       paramCategory === "new-arrivals"
-        ? `/api/v1/products?order_by=createdAt.desc&limit=10`
-        : `/api/v1/products?order_by=${order_by}&offset=${start}&limit=10&category=${paramCategory}`;
+        ? `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/products?order_by=createdAt.desc&limit=10`
+        : `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/products?order_by=${order_by}&offset=${start}&limit=10&category=${paramCategory}`;
 
-    const res = await api.get(reqUrl);
+    const res = await axios.get(reqUrl);
     const fetchedProducts = res.data.data;
 
     const items: itemType[] = fetchedProducts.map((product: apiProductsType) => ({

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Header from "../components/Header/Header";
 import { GetStaticProps } from "next";
-import api from "../config/api";
+import axios from 'axios';
 //@ts-ignore
 import Footer from "../components/Footer/Footer";
 import Button from "../components/Buttons/Button";
@@ -27,8 +27,13 @@ const Home: React.FC<Props> = ({ products }) => {
     if (!isFetching) return;
     const fetchData = async () => {
       try {
-        const res = await api.get(
-          `/api/v1/products?order_by=createdAt.desc&offset=${currentItems.length}&limit=10`
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/products?order_by=createdAt.desc&offset=${currentItems.length}&limit=10`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
         );
         const fetchedProducts = res.data.data.map((product: apiProductsType) => ({
           id: product.id,
@@ -175,8 +180,13 @@ const Home: React.FC<Props> = ({ products }) => {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   let products: itemType[] = [];
   try {
-    const res = await api.get(
-      `/api/v1/products?order_by=createdAt.desc&limit=10`
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/products?order_by=createdAt.desc&limit=10`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
     );
     const fetchedProducts = res.data.data;
     products = fetchedProducts.map((product: apiProductsType) => ({

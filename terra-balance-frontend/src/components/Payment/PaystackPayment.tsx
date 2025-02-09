@@ -1,8 +1,7 @@
-// File: c:\Users\User\Downloads\mint-commerce\mint\src\components\Payment\PaystackPayment.tsx
 import React, { useState, useEffect } from 'react';
 import { PaystackButton } from 'paystack-react';
 import { useAuth } from '../../context/AuthContext';
-import api from '../../config/api';
+import axios from 'axios';
 
 type PaystackPaymentProps = {
   amount: number;
@@ -23,7 +22,14 @@ const PaystackPayment: React.FC<PaystackPaymentProps> = ({
     // Fetch Paystack public key from backend
     const fetchPaystackConfig = async () => {
       try {
-        const response = await api.get('/api/v1/payment/paystack-config');
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/payment/paystack-config`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }
+        );
         setPublicKey(response.data.publicKey);
       } catch (error) {
         console.error('Failed to fetch Paystack config', error);
@@ -48,10 +54,18 @@ const PaystackPayment: React.FC<PaystackPaymentProps> = ({
     callback: async (response: any) => {
       try {
         // Verify transaction with backend
-        const verifyResponse = await api.post('/api/v1/payment/verify', {
-          reference: response.reference,
-          amount: amount
-        });
+        const verifyResponse = await axios.post(
+          `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/payment/verify`, 
+          {
+            reference: response.reference,
+            amount: amount
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
 
         if (verifyResponse.data.status === 'success') {
           onSuccess && onSuccess(response);
