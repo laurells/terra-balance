@@ -5,7 +5,7 @@ import { Menu } from "@headlessui/react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Card from "../../components/Card/Card";
-// import Pagination from "../../components/Util/utilFunc";
+import Pagination from "../../components/Util/Pagination";
 import { apiProductsType, itemType } from "../../context/cart/cart-types";
 import DownArrow from "../../../public/icons/DownArrow";
 import api from "../../config/api";
@@ -75,12 +75,12 @@ const ProductCategory: React.FC<Props> = ({
             ))}
           </div>
           {category !== "new-arrivals" && (
-            // <Pagination
-            //   currentPage={page}
-            //   lastPage={lastPage}
-            //   orderby={orderby}
-            // />
-            ""
+            <Pagination
+              currentPage={page}
+              lastPage={lastPage}
+              orderby={orderby}
+            />
+            
           )}
         </div>
       </main>

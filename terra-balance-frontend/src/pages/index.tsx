@@ -86,7 +86,7 @@ const Home: React.FC<Props> = ({ products }) => {
               >
                  {/* @ts-ignore */}
                 <LinkButton
-                  href="#"
+                  href="/product-category/new-arrivals"
                   extraClass="absolute bottom-10-per sm:right-10-per z-20"
                 >
                   New arrivals
@@ -101,7 +101,7 @@ const Home: React.FC<Props> = ({ products }) => {
               >
                  {/* @ts-ignore */}
                 <LinkButton
-                  href="#"
+                  href="/product-category/food-collection"
                   extraClass="absolute bottom-10-per z-20"
                 >
                   Food collection
@@ -116,7 +116,7 @@ const Home: React.FC<Props> = ({ products }) => {
               >
                 {/* @ts-ignore */}
                 <LinkButton
-                  href="#"
+                  href="/product-category/animal-collection"
                   extraClass="absolute bottom-10-per z-20"
                 >
                   Animal collection
@@ -135,7 +135,10 @@ const Home: React.FC<Props> = ({ products }) => {
             </div>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 lg:gap-x-12 gap-y-6 mb-10 app-x-padding">
-            
+            <Card key={currentItems[1].id} item={currentItems[1]} />
+            <Card key={currentItems[2].id} item={currentItems[2]} />
+            <Card key={currentItems[3].id} item={currentItems[3]} />
+            <Card key={currentItems[4].id} item={currentItems[4]} />
           </div>
         </section>
 
@@ -150,9 +153,16 @@ const Home: React.FC<Props> = ({ products }) => {
           <div className="text-center mb-6">
             <h2 className="text-3xl">Featured products</h2>
           </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-10 sm:gap-y-6 mb-10">
+            {currentItems.map((item) => (
+              <Card key={item.id} item={item} />
+            ))}
+          </div>
           <div className="flex justify-center">
             <Button
-              value="See more"
+              value={!isFetching ? "See more" : "loading"}
+              onClick={handleSeemore}
+              
             />
           </div>
         </section>
