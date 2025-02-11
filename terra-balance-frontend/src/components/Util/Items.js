@@ -1,4 +1,4 @@
-const Items = [
+export const Items = [
     {
       id: 1,
       img1: "https://i.ibb.co/ygvLnKn/minimalist-img-3-364x492.jpg",
@@ -168,5 +168,3 @@ const Items = [
       price: 92.55,
     },
   ];
-  
-  export default Items;
