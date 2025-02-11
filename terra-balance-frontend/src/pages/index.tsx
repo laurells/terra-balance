@@ -213,7 +213,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   } catch (error) {
     console.error('Failed to fetch products:', error);
     // Import fallback items
-    const { Items } = await import('../components/Util/items');
+    const { Items } = await import('../components/Util/Items');
     products = Items.slice(0, 10);
   }
 
