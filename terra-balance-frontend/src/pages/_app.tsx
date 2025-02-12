@@ -1,24 +1,46 @@
-import '@/styles/globals.css';
-import type { AppProps } from 'next/app';
-import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import { NextComponentType, NextPageContext } from "next";
-import Head from 'next/head';
-import { useRouter } from 'next/router';
+import Router from "next/router";
+import NProgress from "nprogress";
+import dotenv from 'dotenv';
+import { Fragment } from "react"
+dotenv.config();
+import { ProvideCart } from "../context/cart/CartProvider";
+import { ProvideWishlist } from "../context/wishlist/WishlistProvider";
+import { ProvideAuth } from "../context/AuthContext";
+import "../styles/globals.css";
+// import "animate.css";
+import "nprogress/nprogress.css";
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+
+
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 type AppCustomProps = {
-    Component: NextComponentType<NextPageContext, any, {}>;
-    pageProps: any;
-}
+  Component: NextComponentType<NextPageContext, any, {}>;
+  pageProps: any;
+  cartState: string;
+  wishlistState: string;
+};
 
-export default function App({ Component, pageProps }: AppCustomProps) {
-    const router = useRouter();
+const MyApp = ({ Component, pageProps }: AppCustomProps) => {
+  const locale = 'en'; // Replace this with your logic to determine the locale
 
-    return (
-        <Fragment>
-          <Head>
-            <title>Terra Balance Ecommerce</title>
-          </Head>
-          <Component {...pageProps} />
-        </Fragment>
-      );
-    }
+  return (
+    <Fragment>
+      <ProvideAuth>
+        <ProvideWishlist>
+          <ProvideCart>
+            <Component {...pageProps} />
+          </ProvideCart>
+        </ProvideWishlist>
+      </ProvideAuth>
+    </Fragment>
+  );
+};
+
+export default MyApp;

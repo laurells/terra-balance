@@ -19,20 +19,21 @@ const Login: React.FC<Props> = ({
   setErrorMsg,
   setSuccessMsg,
 }) => {
-  const auth = useAuth();
+  const {login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const loginResponse = await auth.login!(email, password);
+    
+    const loginResponse = await login(email, password);
     if (loginResponse.success) {
       setSuccessMsg("Login Successful!");
     } else {
       setErrorMsg("Incorrect email or password");
     }
   };
-
+  
   return (
     <>
       <Dialog.Title

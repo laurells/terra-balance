@@ -33,13 +33,13 @@ export default function Footer() {
             <h3 className={styles.footerHead}>Store</h3>
             <div className={styles.column}>
               <Link href={`#`}>
-                Women
+                Fruits & Food
               </Link>
               <Link href={`#`}>
-                Men
+                Livestock
               </Link>
               <Link href={`#`}>
-                Bags
+                E-Learning
               </Link>
             </div>
           </div>

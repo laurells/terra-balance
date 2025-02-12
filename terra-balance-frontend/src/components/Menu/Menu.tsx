@@ -158,7 +158,7 @@ export default function Menu() {
                     <hr className="border border-gray-300 w-full mt-2" />
                     <div className="w-full text-xl py-2 my-3 flex justify-between">
                       <AuthForm extraClass="flex justify-between w-full">
-                        <span>{auth.user ? "profile" : "login"}</span>
+                        <span>{auth.user ? "Profile" : "Login"}</span>
                         <UserIcon />
                       </AuthForm>
                     </div>

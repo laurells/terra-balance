@@ -43,7 +43,7 @@ const Card: FC<Props> = ({ item }) => {
     <div className={styles.card}>
       <div className={styles.imageContainer}>
         <Link href={itemLink}>
-          <a
+          <span
             tabIndex={-1}
             onMouseOver={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -67,7 +67,7 @@ const Card: FC<Props> = ({ item }) => {
                 layout="responsive"
               />
             )}
-          </a>
+          </span>
         </Link>
         <button
           type="button"
@@ -90,7 +90,7 @@ const Card: FC<Props> = ({ item }) => {
 
       <div className="content">
         <Link href={itemLink}>
-          <a className={styles.itemName}>{name}</a>
+          <span className={styles.itemName}>{name}</span>
         </Link>
         <div className="text-gray400">$ {price}</div>
         <button
