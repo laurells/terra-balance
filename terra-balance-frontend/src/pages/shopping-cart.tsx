@@ -22,7 +22,7 @@ const ShoppingCart = () => {
   let subtotal = 0;
 
   let deliFee = 0;
-  if (deli === "Yangon") {
+  if (deli === "Ikeja") {
     deliFee = 2.0;
   } else if (deli === "Others") {
     deliFee = 7.0;
@@ -184,14 +184,14 @@ const ShoppingCart = () => {
                       <input
                         type="radio"
                         name="deli"
-                        value="Yangon"
+                        value="Ikeja"
                         id="ygn"
-                        checked={deli === "Yangon"}
-                        onChange={() => setDeli("Yangon")}
+                        checked={deli === "Ikeja"}
+                        onChange={() => setDeli("Ikeja")}
                         // defaultChecked
                       />{" "}
                       <label htmlFor="ygn" className="cursor-pointer">
-                        Within Yangon
+                        Within Ikeja
                       </label>
                     </div>
                     <span>$ 2.00</span>

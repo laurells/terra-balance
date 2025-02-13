@@ -15,7 +15,7 @@ import PaystackPayment from '../components/Payment/PaystackPayment';
 
 // let w = window.innerWidth;
 type PaymentType = "CASH ON DELIVERY" | "BANK TRANSFER" | "PAYSTACK";
-type DeliveryType = "STORE_PICKUP" | "YANGON" | "OTHERS";
+type DeliveryType = "STORE_PICKUP" | "IKEJA" | "OTHERS";
 
 type Order = {
   orderNumber: string;
@@ -107,7 +107,7 @@ const ShoppingCart = () => {
               : paymentMethod.toLowerCase().replace(' ', '_'),
             shippingAddress: {
               street: shippingAddress || address,
-              city: deli === 'YANGON' ? 'Yangon' : 'Other',
+              city: deli === 'IKEJA' ? 'Ikeja' : 'Other',
             }
           },
           {
@@ -157,7 +157,7 @@ const ShoppingCart = () => {
         paymentReference: response.reference,
         shippingAddress: {
           street: shippingAddress || address,
-          city: deli === 'YANGON' ? 'Yangon' : 'Other',
+          city: deli === 'IKEJA' ? 'Ikeja' : 'Other',
         }
       };
 
@@ -230,7 +230,7 @@ const ShoppingCart = () => {
   
 
   let deliFee = 0;
-  if (deli === "YANGON") {
+  if (deli === "IKEJA") {
     deliFee = 2.0;
   } else if (deli === "OTHERS") {
     deliFee = 7.0;
@@ -498,8 +498,8 @@ const ShoppingCart = () => {
                           name="deli"
                           value="YANGON"
                           id="ygn"
-                          checked={deli === "YANGON"}
-                          onChange={() => setDeli("YANGON" as DeliveryType)}
+                          checked={deli === "IKEJA"}
+                          onChange={() => setDeli("IKEJA" as DeliveryType)}
                           // defaultChecked
                         />{" "}
                         <label htmlFor="ygn" className="cursor-pointer">
