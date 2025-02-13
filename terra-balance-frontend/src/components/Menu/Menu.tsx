@@ -112,7 +112,7 @@ export default function Menu() {
                         className="w-full text-xl hover:bg-gray-100 text-left py-2"
                         onClick={closeModal}
                       >
-                        Men
+                        Fruits & Food
                       
                     </Link>
                     <Link href="#"
@@ -120,7 +120,7 @@ export default function Menu() {
                         className="w-full text-xl hover:bg-gray-100 text-left py-2"
                         onClick={closeModal}
                       >
-                        Women
+                        Livestock
                     
                     </Link>
                     <Link href="#"
@@ -128,7 +128,7 @@ export default function Menu() {
                         className="w-full text-xl hover:bg-gray-100 text-left py-2"
                         onClick={closeModal}
                       >
-                        Bags
+                        E-Learning
                       
                     </Link>
                     <Link href="#"

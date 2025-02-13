@@ -141,7 +141,7 @@ export default function CartItem() {
                   </div>
                   <div className="btnContainer mt-4 px-4 h-1/3 mb-20 w-full flex flex-col ">
                     <div className="flex justify-between">
-                      <span>subtotal</span>
+                      <span>Subtotal</span>
                       <span>$ {roundDecimal(subtotal)}</span>
                     </div>
                   
@@ -154,7 +154,7 @@ export default function CartItem() {
                       {t("view_cart")}
                     </LinkButton> */}
                     <Button
-                      value="checkout"
+                      value="Checkout"
                       onClick={() => router.push(`/checkout`)}
                       disabled={cart.length < 1 ? true : false}
                       extraClass="text-center"
