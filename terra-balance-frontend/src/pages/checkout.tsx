@@ -642,8 +642,7 @@ const ShoppingCart = () => {
                 <div className="pt-2 flex justify-between mb-2">
                   <span className="text-base uppercase">Total</span>
                   <span className="text-base">
-                    
-                    {/* $ {completedOrder ? completedOrder.totalPrice : Number(subtotal) + Number(deliFee)} */}
+                    {/* ${completedOrder ? completedOrder.totalPrice : (Number(subtotal) + Number(deliFee))} */}
                   </span>
                 </div>
               </div>
